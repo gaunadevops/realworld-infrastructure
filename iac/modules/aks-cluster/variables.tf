@@ -10,6 +10,10 @@ variable "environment" {
 
 }
 
+variable "location" {
+  default "East US"
+}
+
 
 variable "node_count" {
   default = 3
