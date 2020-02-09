@@ -1,3 +1,19 @@
+variable "client_id" {
+
+}
+
+variable "client_secret" {
+
+}
+
+variable "tenant_id" {
+
+}
+
+variable "subscription_id" {
+
+}
+
 variable "cluster_name" {
 
 }
@@ -32,7 +48,6 @@ variable "service_principal" {
 
 variable dns_prefix {
 }
-
 
 
 
