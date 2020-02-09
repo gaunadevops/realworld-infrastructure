@@ -11,7 +11,7 @@ variable "environment" {
 }
 
 variable "location" {
-  default "East US"
+  default = "East US"
 }
 
 
