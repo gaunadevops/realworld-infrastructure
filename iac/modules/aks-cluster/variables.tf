@@ -14,7 +14,6 @@ variable "location" {
   default = "East US"
 }
 
-
 variable "node_count" {
   default = 3
 }
@@ -29,6 +28,10 @@ variable "service_principal" {
     client_secret = string
   })
   description = "The service principal to use"
+}
+
+variable dns_prefix {
+  default = var.cluster_name
 }
 
 
