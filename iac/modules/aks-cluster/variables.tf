@@ -31,7 +31,6 @@ variable "service_principal" {
 }
 
 variable dns_prefix {
-  default = var.cluster_name
 }
 
 
