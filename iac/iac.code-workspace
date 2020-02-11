@@ -5,6 +5,14 @@
 		}
 	],
 	"settings": {
-		"editor.formatOnSave": true
+		"editor.formatOnSave": true,
+		"terraform.languageServer": {
+			"enabled": true,
+			"args": []
+		},
+		"terraform.indexing": {
+			"enabled": false,
+			"liveIndexing": false
+		  }
 	}
 }
