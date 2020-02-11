@@ -1,7 +1,7 @@
 locals {
   environment_name = "staging"
-  resource_group_name = "rg-realworld-${locals.environment_name}-001"
-  cluster_name = "azaks-realworld-${locals.environment_name}-001"
+  resource_group_name = "rg-realworld-${local.environment_name}-001"
+  cluster_name = "azaks-realworld-${local.environment_name}-001"
   location = "eastus"
   node_count = 3
 }
