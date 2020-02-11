@@ -10,11 +10,11 @@ locals {
 module "cluster" {
     source = "../modules/aks-cluster"
 
-    location = locals.location
-    node_count = locals.node_count
-    environment = locals.environment_name
-    resource_group_name = locals.resource_group_name
+    location = local.location
+    node_count = local.node_count
+    environment = local.environment_name
+    resource_group_name = local.resource_group_name
     service_principal = var.service_principal
-    cluster_name = locals.cluster_name
-    dns_prefix = locals.cluster_name
+    cluster_name = local.cluster_name
+    dns_prefix = local.cluster_name
 }
