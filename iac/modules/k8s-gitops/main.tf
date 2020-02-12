@@ -26,4 +26,6 @@ provider "helm" {
 
     load_config_file = "false"
   }
+
+  debug = true
 }
