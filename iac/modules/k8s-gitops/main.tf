@@ -1,8 +1,8 @@
-# terraform {
-#   required_providers {
-#     helm = ">= 1.0.0"
-#   }
-# }
+terraform {
+  required_providers {
+    helm = ">= 1.0.0"
+  }
+}
 
 provider "kubernetes" {
   host                   = var.host
