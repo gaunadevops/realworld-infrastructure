@@ -6,5 +6,5 @@ resource "helm_repository" "stable" {
 resource "helm_release" "redis" {
   name  = "redis"
   chart = "stable/redis"
-  repository = data.helm_repository.stable.metadata[0].name
+  repository = resource.helm_repository.stable.metadata[0].name
 }
