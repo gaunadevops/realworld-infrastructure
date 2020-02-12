@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    helm = "~> 1.0"
+  }
+}
+
 provider "kubernetes" {
   host                   = var.host
   username               = var.username
@@ -20,6 +26,4 @@ provider "helm" {
 
     load_config_file = "false"
   }
-
-  debug = true
 }
