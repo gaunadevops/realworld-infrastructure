@@ -16,7 +16,7 @@ resource "helm_release" "flux" {
   repository = data.helm_repository.fluxcd.metadata.0.name
 }
 
-resource "helm_release" "flux" {
+resource "helm_release" "helm_operator" {
   name  = "helm-operator"
   namespace = "flux"
   chart = "fluxcd/helm-operator"
