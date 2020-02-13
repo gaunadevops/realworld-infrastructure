@@ -1,4 +1,4 @@
-data "helm_repository" "fluxcd" {
+resource "helm_repository" "fluxcd" {
     name = "fluxcd"
     url  = "https://charts.fluxcd.io" 
 }
@@ -13,7 +13,7 @@ resource "helm_release" "flux" {
       value = "git@github.com:fgauna12/flux-get-started"
   }
 
-  repository = data.helm_repository.fluxcd.metadata.0.name
+  repository = helm_repository.fluxcd.metadata.0.name
 }
 
 resource "helm_release" "helm_operator" {
@@ -31,7 +31,7 @@ resource "helm_release" "helm_operator" {
       value = "v3"
   }
 
-  repository = data.helm_repository.fluxcd.metadata.0.name
+  repository = helm_repository.fluxcd.metadata.0.name
 }
 
 # resource "null_resource" "flux_helm_crd" {
