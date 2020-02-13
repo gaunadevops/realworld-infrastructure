@@ -1,3 +1,9 @@
+resource "kubernetes_namespace" "flux" {	
+  metadata {	
+    name = "flux"	
+  }	
+}
+
 resource "helm_repository" "fluxcd" {
     name = "fluxcd"
     url  = "https://charts.fluxcd.io" 
