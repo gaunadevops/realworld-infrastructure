@@ -1,11 +1,35 @@
-resource "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
-}
+# data "helm_repository" "fluxcd" {
+#     name = "stable"
+#     url  = "https://charts.fluxcd.io" 
+# }
 
-resource "helm_release" "redis" {
-  name  = "redis"
-  chart = "stable/redis"
+# resource "helm_release" "flux" {
+#   name  = "flux"
+#   namespace = "flux"
+#   chart = "fluxcd/flux"
 
-  repository = helm_repository.stable.metadata.0.name
-}
+#   set {
+#       name = "git.url"
+#       value = "git@github.com:fgauna12"
+#   }
+
+#   repository = data.helm_repository.fluxcd.metadata.0.name
+# }
+
+# resource "helm_release" "flux" {
+#   name  = "helm-operator"
+#   namespace = "flux"
+#   chart = "fluxcd/helm-operator"
+
+#   set {
+#       name = "git.ssh.secretName"
+#       value = "flux-git-deploy"
+#   }
+
+#   set {
+#       name = "helm.versions"
+#       value = "v3"
+#   }
+
+#   repository = data.helm_repository.fluxcd.metadata.0.name
+# }
