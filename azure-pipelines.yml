@@ -53,6 +53,4 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
-    commandOptions: |
-      -servicePrincipal='{ client_id = "$(KubernetesServicePrincipal.ClientId)", client_secret = "$(KubernetesServicePrincipal.ClientSecret)" }'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
