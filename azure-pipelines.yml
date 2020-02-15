@@ -51,6 +51,6 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     commandOptions: '-key=value -key2=value'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
