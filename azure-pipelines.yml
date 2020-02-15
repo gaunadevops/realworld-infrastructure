@@ -43,6 +43,7 @@ steps:
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: 'realworld'
     backendAzureRmKey: $(TerraformBackend.StorageAccountKey)
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: HelmInstaller@1
   inputs:
     helmVersionToInstall: 'latest'
