@@ -54,4 +54,6 @@ steps:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
-    commandOptions: -var "service_principal={ client_id = $(KubernetesServicePrincipal.ClientId), client_secret = $(KubernetesServicePrincipal.ClientSecret) }"
+    commandOptions: |
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)"
+      -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
