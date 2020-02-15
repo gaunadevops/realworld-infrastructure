@@ -43,3 +43,10 @@ steps:
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: 'realworld'
     backendAzureRmKey: $(TerraformBackend.StorageAccountKey)
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
+    commandOptions: '-key=value -key2=value'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
