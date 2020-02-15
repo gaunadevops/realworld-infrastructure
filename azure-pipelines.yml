@@ -14,7 +14,7 @@ variables:
    value: rg-realworld-staging-001
  - name: TerraformBackend.StorageAccount
    value: strwstagingterraform01
-
+ - group: 'terraform_service_pricipal'
 steps:
 - task: AzureCLI@2
   inputs:
