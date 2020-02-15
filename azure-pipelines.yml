@@ -34,3 +34,12 @@ steps:
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.3'
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'nebbia-partner-service-connection'
+    backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
+    backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
+    backendAzureRmContainerName: 'realworld'
+    backendAzureRmKey: $(TerraformBackend.StorageAccountKey)
