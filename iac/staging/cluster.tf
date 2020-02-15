@@ -29,5 +29,5 @@ module "gitops" {
     client_key = module.cluster.client_key
     cluster_ca_certificate = module.cluster.cluster_ca_certificate
 
-    module_dependencies = module.cluster
+    module_dependencies = module.cluster.kube_config
 }
