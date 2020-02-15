@@ -9,14 +9,24 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables: 
+ - name: TerraformBackend.ResourceGroup
+   value: rg-realworld-staging-001
+ - name: TerraformBackend.StorageAccount
+   value: strwstagingterraform01
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'nebbia-partner-service-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az group create --location eastus --name $(TerraformBackend.ResourceGroup)
+      
+      az storage account create --name $(TerraformBackend.StorageAccount) --resource-group $(TerraformBackend.ResourceGroup) --location eastus --sku Standard_LRS
+      
+      az storage container create --name terraform --account-name $(TerraformBackend.StorageAccount)
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.3'
