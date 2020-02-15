@@ -1,3 +1,8 @@
+variable "module_dependencies" { 
+    default = []
+    type = "list"
+}
+
 variable "host" {
 
 }

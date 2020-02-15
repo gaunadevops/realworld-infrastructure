@@ -6,7 +6,6 @@ locals {
   node_count = 3
 }
 
-
 module "cluster" {
     source = "../modules/aks-cluster"
 
@@ -20,7 +19,7 @@ module "cluster" {
     dns_prefix = local.cluster_name
 }
 
-module "governance" {
+module "gitops" {
     source = "../modules/k8s-gitops"
 
     host = module.cluster.host
@@ -29,4 +28,6 @@ module "governance" {
     client_certificate = module.cluster.client_certificate
     client_key = module.cluster.client_key
     cluster_ca_certificate = module.cluster.cluster_ca_certificate
+
+    module_dependencies = module.cluster
 }
