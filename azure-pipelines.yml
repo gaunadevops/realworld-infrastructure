@@ -15,6 +15,7 @@ variables:
  - name: TerraformBackend.StorageAccount
    value: strwstagingterraform01
  - group: 'terraform_service_pricipal'
+ - group: 'staging'
 steps:
 - task: AzureCLI@2
   inputs:
@@ -52,5 +53,6 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
-    commandOptions: '-key=value -key2=value'
+    commandOptions: |
+      -servicePrincipal='{ client_id = "$(KubernetesServicePrincipal.ClientId)", client_secret = "$(KubernetesServicePrincipal.ClientSecret)" }'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
