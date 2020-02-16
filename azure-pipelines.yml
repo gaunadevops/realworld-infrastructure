@@ -57,8 +57,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -target=module.cluster
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
+      -target=module.cluster -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply Cluster GitOps"
   inputs:
@@ -67,5 +66,4 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -target=module.gitops
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
+      -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
