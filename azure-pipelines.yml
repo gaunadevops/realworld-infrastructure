@@ -36,6 +36,7 @@ steps:
   inputs:
     terraformVersion: '0.12.3'
 - task: TerraformTaskV1@0
+  displayName: "Terraform Init"
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -49,6 +50,7 @@ steps:
   inputs:
     helmVersionToInstall: 'latest'
 - task: TerraformTaskV1@0
+  displayName: "Terraform Plan"
   inputs:
     provider: 'azurerm'
     command: 'plan'
@@ -56,6 +58,7 @@ steps:
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: '-var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"'
 - task: TerraformTaskV1@0
+  displayName: "Terraform Apply"
   inputs:
     provider: 'azurerm'
     command: 'apply'
