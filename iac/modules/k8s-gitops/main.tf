@@ -4,9 +4,16 @@ terraform {
   }
 }
 
+resource "null_resource" "waited_on" {
+  provider "local-exec" {
+    command = "Waiting on ${var.host} to provision"
+  }
+}
+
 resource "local_file" "kube_config" {
   # HACK: depends_on for the helm provider
   # Passing provider configuration value via a local_file
+  depends_on = [null_resource.waited_on]
   content    = "${var.kube_config}"
   filename   = "./terraform.tfstate.helmprovider.kubeconfig"
 }
