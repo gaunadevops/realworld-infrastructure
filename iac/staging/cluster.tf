@@ -1,3 +1,7 @@
+terraform {
+  backend "azurerm" {}
+}
+
 locals {
   environment_name    = "staging"
   resource_group_name = "rg-realworld-${local.environment_name}-001"
