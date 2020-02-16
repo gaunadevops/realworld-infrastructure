@@ -1,5 +1,4 @@
-variable "wait_on" {
-    default = null
+variable "kube_config" {
 }
 
 variable "host" {
