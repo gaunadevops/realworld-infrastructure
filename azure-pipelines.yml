@@ -38,7 +38,9 @@ steps:
 
       echo "echo key"
       echo "$STORAGE_ACCOUNT_KEY"
-
+- bash: |
+    echo "echo key in next step"
+    echo "$(TerraformBackend.StorageAccountKey)"
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.20'
