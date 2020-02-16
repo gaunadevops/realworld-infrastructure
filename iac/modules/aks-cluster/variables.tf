@@ -22,19 +22,12 @@ variable "node_size" {
   default = "Standard_D2_v2"
 }
 
-# variable "aks_service_principal_client_id" {
-#   type = string
-# }
+variable "aks_service_principal_client_id" {
+  type = string
+}
 
-# variable "aks_service_principal_client_secret" {
-#   type = string
-# }
-
-variable "service_principal" {	
-  type = object({
-    client_id     = string	
-    client_secret = string	
-  })	
+variable "aks_service_principal_client_secret" {
+  type = string
 }
 
 variable dns_prefix {
