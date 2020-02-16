@@ -33,6 +33,8 @@ steps:
 
       echo "setting storage account key variable"
       echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$STORAGE_ACCOUNT_KEY"
+
+      echo "$ARM_ACCESS_KEY"
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.20'
