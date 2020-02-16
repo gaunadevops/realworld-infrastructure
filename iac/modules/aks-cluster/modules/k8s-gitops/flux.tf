@@ -40,8 +40,8 @@ resource "helm_release" "helm_operator" {
   repository = helm_repository.fluxcd.metadata.0.name
 }
 
-# resource "null_resource" "flux_helm_crd" {
-#   provisioner "local-exec" {
-#     command = "kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/flux-helm-release-crd.yaml"
-#   }
-# }
+resource "null_resource" "flux_helm_crd" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/flux-helm-release-crd.yaml"
+  }
+}
