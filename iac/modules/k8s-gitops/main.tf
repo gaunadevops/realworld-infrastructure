@@ -7,7 +7,7 @@ terraform {
 resource "local_file" "kube_config" {
   # HACK: depends_on for the helm provider
   # Passing provider configuration value via a local_file
-  content    = "${var.kubeconfig}"
+  content    = "${var.kube_config}"
   filename   = "./terraform.tfstate.helmprovider.kubeconfig"
 }
 
