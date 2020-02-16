@@ -1,10 +1,5 @@
-variable "module_dependencies" { 
-    default = []
-    type = "list"
-}
-
 variable "host" {
-
+    
 }
 
 variable "username" {
