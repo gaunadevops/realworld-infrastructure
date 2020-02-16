@@ -33,7 +33,7 @@ provider "helm" {
     # cluster_ca_certificate = var.cluster_ca_certificate
 
     # load_config_file = "false"
-    config_path = "${local_file.kubeconfig.filename}"
+    config_path = "${local_file.kube_config.filename}"
   }
 
   debug = true
