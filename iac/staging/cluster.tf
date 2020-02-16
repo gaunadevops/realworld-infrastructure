@@ -20,7 +20,7 @@ module "cluster" {
     dns_prefix = local.cluster_name
 }
 
-module "gitops" {
+module "governance" {
     source = "../modules/k8s-gitops"
 
     host = module.cluster.host
