@@ -5,7 +5,7 @@ terraform {
 }
 
 resource "null_resource" "waited_on" {
-  resource "local-exec" {
+  provisioner "local-exec" {
     command = "echo 'Waited for ${wait_on} to complete"
   }
 }
