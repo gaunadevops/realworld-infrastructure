@@ -33,14 +33,6 @@ steps:
 
       echo "setting storage account key variable"
       echo "##vso[task.setvariable variable=TerraformBackend.StorageAccountKey]$STORAGE_ACCOUNT_KEY"
-
-      az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value"
-
-      echo "echo key"
-      echo "$STORAGE_ACCOUNT_KEY"
-- bash: |
-    echo "echo key in next step"
-    echo "$(TerraformBackend.StorageAccountKey)"
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.20'
@@ -55,9 +47,11 @@ steps:
     backendServiceArm: 'nebbia-partner-service-connection'
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
-    backendAzureRmContainerName: 'realworld-cluster'
-    backendAzureRmKey: $(TerraformBackend.StorageAccountKey)
+    backendAzureRmContainerName: 'terraform'
+    backendAzureRmKey: 'realworld/cluster.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
+    commandOptions: |
+      -target=module.cluster
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply Cluster Module"
   inputs:
