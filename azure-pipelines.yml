@@ -31,7 +31,14 @@ steps:
 
       STORAGE_ACCOUNT_KEY=$(az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value")
 
+      echo "setting storage account key variable"
       echo "##vso[task.setvariable variable='TerraformBackend.StorageAccountKey']$STORAGE_ACCOUNT_KEY"
+
+      az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value"
+
+      echo "echo key"
+      echo "$STORAGE_ACCOUNT_KEY"
+
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.12.20'
