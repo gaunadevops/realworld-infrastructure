@@ -20,7 +20,7 @@ module "cluster" {
 }
 
 module "gitops" {
-    source = "../modules/k8s-gitops"
+    source = "../modules/aks-cluster/modules/k8s-gitops"
 
     host = module.cluster.host
     username = module.cluster.username
