@@ -29,7 +29,7 @@ steps:
       
       az storage container create --name terraform --account-name $(TerraformBackend.StorageAccount)
 
-      STORAGE_ACCOUNT_KEY = $(az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value")
+      STORAGE_ACCOUNT_KEY=$(az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value")
 
       echo "##vso[task.setvariable variable='TerraformBackend.StorageAccountKey']$STORAGE_ACCOUNT_KEY"
 - task: TerraformInstaller@0
