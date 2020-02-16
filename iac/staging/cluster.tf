@@ -20,15 +20,15 @@ module "cluster" {
     dns_prefix = local.cluster_name
 }
 
-module "gitops" {
-    source = "../modules/k8s-gitops"
+# module "gitops" {
+#     source = "../modules/k8s-gitops"
 
-    host = module.cluster.host
-    username = module.cluster.username
-    password = module.cluster.password
-    client_certificate = module.cluster.client_certificate
-    client_key = module.cluster.client_key
-    cluster_ca_certificate = module.cluster.cluster_ca_certificate
+#     host = module.cluster.host
+#     username = module.cluster.username
+#     password = module.cluster.password
+#     client_certificate = module.cluster.client_certificate
+#     client_key = module.cluster.client_key
+#     cluster_ca_certificate = module.cluster.cluster_ca_certificate
 
-    kube_config = module.cluster.kube_config
-}
+#     kube_config = module.cluster.kube_config
+# }
