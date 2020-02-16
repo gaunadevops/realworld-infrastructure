@@ -4,6 +4,12 @@ terraform {
   }
 }
 
+resource "null_resource" "waited_on" {
+  resource "local-exec" {
+    command = "echo 'Waited for ${wait_on} to complete"
+  }
+}
+
 provider "kubernetes" {
   host                   = var.host
   username               = var.username

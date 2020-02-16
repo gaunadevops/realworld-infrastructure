@@ -1,7 +1,5 @@
-resource "null_resource" "waited_on" {
-  resource "local-exec" {
-    command = "echo 'Waited for ${wait_on} to complete"
-  }
+variable "wait_on" {
+    default = null
 }
 
 variable "host" {
