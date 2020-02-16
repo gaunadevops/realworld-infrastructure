@@ -31,7 +31,7 @@ provider "kubernetes" {
   client_key             = module.cluster.client_key
   cluster_ca_certificate = module.cluster.cluster_ca_certificate  
 
-  load_config_file = "false"
+  load_config_file = false
 }
 
 provider "helm" {
@@ -43,7 +43,7 @@ provider "helm" {
     client_key             = module.cluster.client_key
     cluster_ca_certificate = module.cluster.cluster_ca_certificate
 
-    load_config_file = "false"
+    load_config_file = false
   }
 
   debug = true
