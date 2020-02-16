@@ -5,7 +5,7 @@ terraform {
 }
 
 resource "null_resource" "waited_on" {
-  provider "local-exec" {
+  provisioner "local-exec" {
     command = "Waiting on ${var.host} to provision"
   }
 }
