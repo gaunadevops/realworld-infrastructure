@@ -31,6 +31,7 @@ variable "aks_service_principal_client_secret" {
 }
 
 variable dns_prefix {
+  
 }
 
 

@@ -1,6 +1,3 @@
-variable "kube_config" {
-}
-
 variable "host" {
     
 }
