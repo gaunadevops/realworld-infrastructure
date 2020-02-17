@@ -7,7 +7,7 @@ locals {
   resource_group_name = "rg-realworld-${local.environment_name}-001"
   cluster_name        = "azaks-realworld-${local.environment_name}-001"
   location            = "eastus"
-  node_count          = 3
+  node_count          = 1
 }
 
 provider "azurerm" {
