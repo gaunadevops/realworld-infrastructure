@@ -11,7 +11,7 @@ locals {
 }
 
 provider "azurerm" {
-  version = "=1.43.0"
+  version = "~>1.43"
 }
 
 module "cluster" {
