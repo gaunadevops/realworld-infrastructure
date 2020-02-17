@@ -14,6 +14,8 @@ variables:
    value: rg-realworld-staging-001
  - name: TerraformBackend.StorageAccount
    value: strwstagingterraform01
+ - name: TerraformBackend.ContainerName
+   value: staging
  - group: 'staging'
 steps:
 - task: AzureCLI@2
@@ -26,7 +28,7 @@ steps:
       
       az storage account create --name $(TerraformBackend.StorageAccount) --resource-group $(TerraformBackend.ResourceGroup) --location eastus --sku Standard_LRS
       
-      az storage container create --name staging --account-name $(TerraformBackend.StorageAccount)
+      az storage container create --name $(TerraformBackend.ContainerName) --account-name $(TerraformBackend.StorageAccount)
 
       STORAGE_ACCOUNT_KEY=$(az storage account keys list -g $(TerraformBackend.ResourceGroup) -n $(TerraformBackend.StorageAccount) | jq ".[0].value" -r)
 
@@ -46,7 +48,7 @@ steps:
     backendServiceArm: 'nebbia-partner-service-connection'
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
-    backendAzureRmContainerName: 'staging'
+    backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: TerraformTaskV1@0
