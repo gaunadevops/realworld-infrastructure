@@ -45,7 +45,6 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    backendServiceArm: 'nebbia-partner-service-connection'
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
@@ -57,7 +56,6 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
-    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -target=module.cluster -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - task: TerraformTaskV1@0
@@ -66,6 +64,5 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
-    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
