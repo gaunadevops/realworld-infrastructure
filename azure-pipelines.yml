@@ -48,10 +48,8 @@ steps:
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: 'staging'
-    backendAzureRmKey: 'realworld/cluster.tfstate'
+    backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
-    commandOptions: |
-      -target=module.cluster
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply Cluster Module"
   inputs:
