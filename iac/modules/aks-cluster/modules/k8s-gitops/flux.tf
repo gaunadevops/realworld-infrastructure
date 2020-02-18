@@ -16,7 +16,7 @@ resource "helm_release" "flux" {
 
   set {
       name = "git.url"
-      value = "git@github.com:fgauna12/flux-get-started"
+      value = "https://github.com/fgauna12/flux-get-started.git"
   }
 
   repository = helm_repository.fluxcd.metadata.0.name
