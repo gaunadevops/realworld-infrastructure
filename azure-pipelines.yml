@@ -70,4 +70,4 @@ steps:
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - bash: |
-    sudo snap install fluxctl
+    sudo snap install fluxctl --classic
