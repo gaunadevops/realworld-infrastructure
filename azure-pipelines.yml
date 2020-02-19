@@ -71,7 +71,7 @@ steps:
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - pwsh: |
-    $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | ConvertFrom-Json
+    $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
     Write-Host $outputs
 - bash: |
     echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
