@@ -77,6 +77,7 @@ steps:
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
       echo "acquiring public ssh key for flux"
+      kubectl create ns flux
       export GHUSER="fgauna12"
       fluxctl install \
       --git-user=${GHUSER} \
