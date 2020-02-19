@@ -87,8 +87,9 @@ steps:
 #     fluxctl identity --k8s-fwd-ns flux
 - bash: |
     echo "here's the file path $(TerraformOutput.jsonOutputVariablesPath)"
-    cp $(TerraformOutput.jsonOutputVariablesPath) $HOME/.kube/config
+    rsync -a $(TerraformOutput.jsonOutputVariablesPath) $HOME/.kube/config
     ls -a $HOME/.kube
+    
     exit 1
     
     echo "installing fluxctl"
