@@ -73,7 +73,6 @@ steps:
 - pwsh: |
     $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
     
-    Write-Host "output $(TerraformOutput)"
     Write-Host "json path $(jsonOutputVariablesPath)"
     Write-Host "home is $HOME"
     Write-Host "$outputs"
