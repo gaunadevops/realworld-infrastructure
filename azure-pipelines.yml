@@ -85,5 +85,6 @@ steps:
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
       echo "acquiring public ssh key for flux"
+      fluxctl identity --k8s-fwd-ns flux
       IDENTITY=$(fluxctl identity --k8s-fwd-ns flux)
       echo "identity is $IDENTITY"
