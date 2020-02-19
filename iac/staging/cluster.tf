@@ -53,6 +53,6 @@ provider "helm" {
   debug = true
 }
 
-module "gitops" {
-  source = "../modules/aks-cluster/modules/k8s-gitops"
-}
+# module "gitops" {
+#   source = "../modules/aks-cluster/modules/k8s-gitops"
+# }

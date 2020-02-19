@@ -85,6 +85,12 @@ steps:
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
       echo "acquiring public ssh key for flux"
-      fluxctl identity --k8s-fwd-ns flux
+      export GHUSER="fgauna12"
+      fluxctl install \
+      --git-user=${GHUSER} \
+      --git-email=${GHUSER}@users.noreply.github.com \
+      --git-url=git@github.com:${GHUSER}/flux-get-started \
+      --git-path=namespaces,workloads \
+      --namespace=flux | kubectl apply -f -
       IDENTITY=$(fluxctl identity --k8s-fwd-ns flux)
       echo "identity is $IDENTITY"
