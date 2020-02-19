@@ -87,8 +87,8 @@ steps:
 #     fluxctl identity --k8s-fwd-ns flux
 - bash: |
     echo "here's the file path $(TerraformOutput.jsonOutputVariablesPath)"
-    mkdir -p $HOME/.kube && mv $(TerraformOutput.jsonOutputVariablesPath) "$($_)/config"
-    ls -a $HOME/.kube
+    cat $(TerraformOutput.jsonOutputVariablesPath)
+    cat $(TerraformOutput.jsonOutputVariablesPath) | jq ".outputs.cluster_name.value" -r
     
     exit 1
     
