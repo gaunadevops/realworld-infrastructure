@@ -86,4 +86,4 @@ steps:
 #     sudo snap install fluxctl --classic
 #     copy $HOME/. kube/config
 #     fluxctl identity --k8s-fwd-ns flux
-  displayName: Configure Flux
+#  displayName: Configure Flux
