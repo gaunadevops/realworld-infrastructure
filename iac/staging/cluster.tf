@@ -54,5 +54,5 @@ provider "helm" {
 }
 
 module "gitops" {
-  source = "../modules/aks-cluster/modules/k8s-gitops"
+  source = "../modules/k8s-gitops"
 }
