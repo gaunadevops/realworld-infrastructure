@@ -57,7 +57,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    backendServiceArm: 'nebbia-partner-service-connection'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
