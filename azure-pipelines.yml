@@ -70,21 +70,6 @@ steps:
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
-# - pwsh: |
-#     $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
-    
-#     # Write-Host "output $(TerraformOutput)"
-#     Write-Host "json path $(jsonOutputVariablesPath)"
-#     Write-Host "home is $HOME"
-#     Write-Host "$outputs"
-
-#     New-Item "$HOME/.kube/config" -Force
-
-#     $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File -FilePath $HOME/.kube/config -Force
-
-#     Write-Host "Installing fluxctl"
-#     sudo snap install fluxctl --classic
-#     fluxctl identity --k8s-fwd-ns flux
 - task: AzureCLI@2
   displayName: Install Fluxctl
   inputs:
@@ -100,15 +85,4 @@ steps:
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
       echo "acquiring public ssh key for flux"
-      fluxctl identity --k8s-fwd-ns flux
-# - bash: |
-#     CLUSTER_NAME=$(cat $(TerraformOutput.jsonOutputVariablesPath) | jq '.cluster_name.value' -r)
-#     RESOURCE_GROUP_NAME=$(cat $(TerraformOutput.jsonOutputVariablesPath) | jq '.resource_group_name.value' -r)
-    
-#     echo "installing fluxctl"
-#     sudo snap install fluxctl --classic
-#     echo "acquiring credentials for cluster"
-#     az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
-#     echo "acquiring public ssh key for flux"
-#     fluxctl identity --k8s-fwd-ns flux
-#   displayName: Configure Flux
+      echo $(fluxctl identity --k8s-fwd-ns flux)
