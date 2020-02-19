@@ -87,9 +87,10 @@ steps:
 #     fluxctl identity --k8s-fwd-ns flux
 - bash: |
     echo "here's the file path $(TerraformOutput.jsonOutputVariablesPath)"
-    echo "here's the cluster name $(TerraformOutput.cluster_name)"
-    echo "here's the resource group name $(TerraformOutput.resource_group)"
+    cp $(TerraformOutput.jsonOutputVariablesPath) $HOME/.kube/config
+    ls -a $HOME/.kube
     exit 1
+    
     echo "installing fluxctl"
     sudo snap install fluxctl --classic
     echo "acquiring credentials for cluster"
