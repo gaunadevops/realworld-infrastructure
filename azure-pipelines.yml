@@ -71,3 +71,5 @@ steps:
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - bash: |
     sudo snap install fluxctl --classic
+    fluxctl identity --k8s-fwd-ns flux
+  displayName: Configure Flux
