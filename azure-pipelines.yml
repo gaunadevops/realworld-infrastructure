@@ -94,4 +94,4 @@ steps:
     az aks get-credentials -n $(TerraformOutput.cluster_name) -g $(TerraformOutput.resource_group)
     echo "acquiring public ssh key for flux"
     fluxctl identity --k8s-fwd-ns flux
- displayName: Configure Flux
+  displayName: Configure Flux
