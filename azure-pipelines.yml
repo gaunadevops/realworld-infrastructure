@@ -72,10 +72,18 @@ steps:
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - pwsh: |
     $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
-    Write-Host $outputs
-- bash: |
-    echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
+    
+    Write-Host "home is $HOME"
+    Write-Host "$outputs"
+
+    $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File $HOME/.kube/config
+
+    Write-Host "Installing fluxctl"
     sudo snap install fluxctl --classic
-    copy $HOME/. kube/config
     fluxctl identity --k8s-fwd-ns flux
+# - bash: |
+#     echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
+#     sudo snap install fluxctl --classic
+#     copy $HOME/. kube/config
+#     fluxctl identity --k8s-fwd-ns flux
   displayName: Configure Flux
