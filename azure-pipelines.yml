@@ -92,5 +92,8 @@ steps:
       --git-url=git@github.com:${GHUSER}/flux-get-started \
       --git-path=namespaces,workloads \
       --namespace=flux | kubectl apply -f -
+      
+      sleep 5
+      
       IDENTITY=$(fluxctl identity --k8s-fwd-ns flux)
       echo "identity is $IDENTITY"
