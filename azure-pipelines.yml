@@ -17,6 +17,7 @@ variables:
  - name: TerraformBackend.ContainerName
    value: staging
  - group: 'staging'
+ - group: 'global'
 steps:
 - task: AzureCLI@2
   inputs:
@@ -52,7 +53,7 @@ steps:
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: TerraformTaskV1@0
-  name: TerraformOutput
+  name: TerraformCluster
   displayName: "Terraform Apply Cluster Module"
   inputs:
     provider: 'azurerm'
@@ -60,16 +61,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -target=module.cluster -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
-- task: TerraformTaskV1@0
-  displayName: "Terraform Apply Cluster GitOps"
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
-    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
-    commandOptions: |
-      -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - task: AzureCLI@2
   displayName: Install Fluxctl
   inputs:
@@ -77,8 +69,8 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      CLUSTER_NAME=$(cat $(TerraformOutput.jsonOutputVariablesPath) | jq '.cluster_name.value' -r)
-      RESOURCE_GROUP_NAME=$(cat $(TerraformOutput.jsonOutputVariablesPath) | jq '.resource_group_name.value' -r)
+      CLUSTER_NAME=$(cat $(TerraformCluster.jsonOutputVariablesPath) | jq '.cluster_name.value' -r)
+      RESOURCE_GROUP_NAME=$(cat $(TerraformCluster.jsonOutputVariablesPath) | jq '.resource_group_name.value' -r)
       
       echo "installing fluxctl"
       sudo snap install fluxctl --classic
@@ -95,5 +87,26 @@ steps:
       
       sleep 5
       
-      IDENTITY=$(fluxctl identity --k8s-fwd-ns flux)
-      echo "identity is $IDENTITY"
+      STAGING_SSH_PUBLIC_KEY=$(fluxctl identity --k8s-fwd-ns flux)
+      echo "##vso[task.setvariable variable=Staging.Flux.SshPublicKey;issecret=true]$STAGING_SSH_PUBLIC_KEY"
+- task: TerraformTaskV1@0
+  displayName: "Terraform Init - Global"
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'nebbia-partner-service-connection'
+    backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
+    backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
+    backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
+    backendAzureRmKey: 'global/terraform.tfstate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+- task: TerraformTaskV1@0
+  displayName: "Terraform Apply Global Module"
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
+    commandOptions: |
+      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)"
+      
