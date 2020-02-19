@@ -1,6 +1,6 @@
 provider "github" {
   token = var.github_token
-  individual = true
+  organization = "gaunadevops"
 }
 
 # Add deploy key
