@@ -76,7 +76,7 @@ steps:
     Write-Host "home is $HOME"
     Write-Host "$outputs"
 
-    $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File $HOME/.kube/config -Force
+    $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File -FilePath $HOME/.kube/config -Force
 
     Write-Host "Installing fluxctl"
     sudo snap install fluxctl --classic
