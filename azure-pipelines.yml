@@ -86,8 +86,10 @@ steps:
 #     sudo snap install fluxctl --classic
 #     fluxctl identity --k8s-fwd-ns flux
 - bash: |
+    echo "here's the file path $(TerraformOutput.jsonOutputVariablesPath)"
     echo "here's the cluster name $(TerraformOutput.cluster_name)"
-    echo "here's the cluster name $(TerraformOutput.resource_group)"
+    echo "here's the resource group name $(TerraformOutput.resource_group)"
+    exit 1
     echo "installing fluxctl"
     sudo snap install fluxctl --classic
     echo "acquiring credentials for cluster"
