@@ -53,8 +53,19 @@ steps:
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: TerraformTaskV1@0
+  displayName: "Terraform Plan"
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    backendServiceArm: 'nebbia-partner-service-connection'
+    backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
+    backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
+    backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
+    backendAzureRmKey: 'infrastructure/terraform.tfstate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
+- task: TerraformTaskV1@0
   name: TerraformCluster
-  displayName: "Terraform Apply Cluster Module"
+  displayName: "Terraform Apply Staging"
   inputs:
     provider: 'azurerm'
     command: 'apply'
