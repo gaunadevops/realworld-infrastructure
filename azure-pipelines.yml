@@ -52,6 +52,7 @@ steps:
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: TerraformTaskV1@0
+  name: TerraformOutput
   displayName: "Terraform Apply Cluster Module"
   inputs:
     provider: 'azurerm'
@@ -70,6 +71,8 @@ steps:
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - bash: |
+    echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
     sudo snap install fluxctl --classic
+    copy $HOME/. kube/config
     fluxctl identity --k8s-fwd-ns flux
   displayName: Configure Flux
