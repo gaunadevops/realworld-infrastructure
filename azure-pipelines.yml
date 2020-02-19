@@ -70,23 +70,28 @@ steps:
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
-- pwsh: |
-    $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
+# - pwsh: |
+#     $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | Out-String | ConvertFrom-Json
     
-    Write-Host "json path $(jsonOutputVariablesPath)"
-    Write-Host "home is $HOME"
-    Write-Host "$outputs"
+#     # Write-Host "output $(TerraformOutput)"
+#     Write-Host "json path $(jsonOutputVariablesPath)"
+#     Write-Host "home is $HOME"
+#     Write-Host "$outputs"
 
-    New-Item "$HOME/.kube/config" -Force
+#     New-Item "$HOME/.kube/config" -Force
 
-    $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File -FilePath $HOME/.kube/config -Force
+#     $outputs | Select-Object -ExpandProperty "kube_config" | Select-Object -ExpandProperty "value" | Out-File -FilePath $HOME/.kube/config -Force
 
-    Write-Host "Installing fluxctl"
-    sudo snap install fluxctl --classic
-    fluxctl identity --k8s-fwd-ns flux
-# - bash: |
-#     echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
+#     Write-Host "Installing fluxctl"
 #     sudo snap install fluxctl --classic
-#     copy $HOME/. kube/config
 #     fluxctl identity --k8s-fwd-ns flux
-#  displayName: Configure Flux
+- bash: |
+    echo "here's the cluster name $(TerraformOutput.cluster_name)"
+    echo "here's the cluster name $(TerraformOutput.resource_group)"
+    echo "installing fluxctl"
+    sudo snap install fluxctl --classic
+    echo "acquiring credentials for cluster"
+    az aks get-credentials -n $(TerraformOutput.cluster_name) -g $(TerraformOutput.resource_group)
+    echo "acquiring public ssh key for flux"
+    fluxctl identity --k8s-fwd-ns flux
+ displayName: Configure Flux
