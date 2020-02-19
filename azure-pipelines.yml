@@ -71,7 +71,8 @@ steps:
     commandOptions: |
       -target=module.gitops -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - pwsh: |
-    Get-Content $(TerraformOutput.jsonOutputVariablesPath) | ConvertFrom-Json
+    $outputs = Get-Content $(TerraformOutput.jsonOutputVariablesPath) | ConvertFrom-Json
+    Write-Host $outputs
 - bash: |
     echo "here's the path $(TerraformOutput.jsonOutputVariablesPath)"
     sudo snap install fluxctl --classic
