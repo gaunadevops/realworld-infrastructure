@@ -87,10 +87,13 @@ steps:
       
       echo "installing fluxctl"
       sudo snap install fluxctl --classic
+
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
-      echo "acquiring public ssh key for flux"
+
+      echo "installing flux"
       kubectl create ns flux
+
       export GHUSER="fgauna12"
       fluxctl install \
       --git-user=${GHUSER} \
@@ -101,8 +104,9 @@ steps:
       
       sleep 5
       
+      echo "acquiring public ssh key for flux"
       STAGING_SSH_PUBLIC_KEY=$(fluxctl identity --k8s-fwd-ns flux)
-      echo "##vso[task.setvariable variable=Staging.Flux.SshPublicKey;issecret=true]$STAGING_SSH_PUBLIC_KEY"
+      echo "##vso[task.setvariable variable='Staging.Flux.SshPublicKey';issecret=true]$STAGING_SSH_PUBLIC_KEY"
 - task: TerraformTaskV1@0
   displayName: "Terraform Init - Global"
   inputs:
@@ -114,8 +118,10 @@ steps:
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+- bash: |
+    echo "key $(Staging.Flux.SshPublicKey)"
 - task: TerraformTaskV1@0
-  displayName: "Terraform Apply Global Module"
+  displayName: "Terraform Apply - Global Module"
   inputs:
     provider: 'azurerm'
     command: 'apply'
