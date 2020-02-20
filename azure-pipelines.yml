@@ -106,7 +106,7 @@ steps:
       
       echo "acquiring public ssh key for flux"
       STAGING_SSH_PUBLIC_KEY=$(fluxctl identity --k8s-fwd-ns flux)
-      echo "##vso[task.setvariable variable='Staging.Flux.SshPublicKey';issecret=true]$STAGING_SSH_PUBLIC_KEY"
+      echo "##vso[task.setvariable variable='STAGING_FLUX_SSHPUBLICKEY';issecret=true]$STAGING_SSH_PUBLIC_KEY"
 - task: TerraformTaskV1@0
   displayName: "Terraform Init - Global"
   inputs:
@@ -119,7 +119,7 @@ steps:
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
 - bash: |
-    echo "key $(Staging.Flux.SshPublicKey)"
+    echo "key $(STAGING_FLUX_SSHPUBLICKEY)"
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply - Global Module"
   inputs:
@@ -128,5 +128,5 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
+      -var "staging_ssh_public_key=$(STAGING_FLUX_SSHPUBLICKEY)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
       
