@@ -119,12 +119,19 @@ steps:
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
 - task: TerraformTaskV1@0
+  displayName: "Terraform Plan - Global Module"
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
+- task: TerraformTaskV1@0
   displayName: "Terraform Apply - Global Module"
   inputs:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
-    commandOptions: |
-      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
+  continueOnError: true
+    
       
