@@ -125,6 +125,8 @@ steps:
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
+  commandOptions: |
+    -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply - Global Module"
   inputs:
@@ -133,5 +135,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
   continueOnError: true
+  commandOptions: |
+    -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
     
       
