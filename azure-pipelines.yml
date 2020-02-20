@@ -106,7 +106,7 @@ steps:
       
       echo "acquiring public ssh key for flux"
       STAGING_SSH_PUBLIC_KEY=$(fluxctl identity --k8s-fwd-ns flux)
-      echo "##vso[task.setvariable variable=Staging.Flux.SshPublicKey]$STAGING_SSH_PUBLIC_KEY"
+      echo "##vso[task.setvariable variable=Staging.Flux.SshPublicKey;issecret=true]$STAGING_SSH_PUBLIC_KEY"
 - task: TerraformTaskV1@0
   displayName: "Terraform Init - Global"
   inputs:
@@ -118,8 +118,6 @@ steps:
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
-- bash: |
-    echo "key $(Staging.Flux.SshPublicKey)"
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply - Global Module"
   inputs:
