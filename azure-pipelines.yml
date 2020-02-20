@@ -62,7 +62,9 @@ steps:
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
+    commandOptions: |
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
 - task: TerraformTaskV1@0
   name: TerraformCluster
   displayName: "Terraform Apply Staging"
