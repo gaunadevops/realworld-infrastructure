@@ -117,13 +117,13 @@ steps:
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'global/terraform.tfstate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
 - task: TerraformTaskV1@0
   displayName: "Terraform Plan - Global Module"
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
