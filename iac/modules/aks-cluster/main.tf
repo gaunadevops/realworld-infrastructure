@@ -32,7 +32,7 @@ data "azuread_service_principal" "aks_principal" {
 resource "azurerm_role_assignment" "acrpull_role" {
   scope                            = var.acr_resource_id
   role_definition_name             = "AcrPull"
-  principal_id                     = azuread_service_principal.aks_principal.id
+  principal_id                     = data.azuread_service_principal.aks_principal.id
   skip_service_principal_aad_check = true
 }
 
