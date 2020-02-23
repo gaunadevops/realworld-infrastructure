@@ -13,7 +13,7 @@ locals {
   location                = "eastus"
 }
 
-module "container-registry" {
+module "container_registry" {
   source = "./container-registry"
 
   resource_group_name     = local.resource_group_name
