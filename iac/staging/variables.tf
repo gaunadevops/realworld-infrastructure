@@ -6,4 +6,6 @@ variable "aks_service_principal_client_secret" {
   type = string
 }
 
-
+variable "acr_resource_id" {
+  
+}

@@ -50,6 +50,39 @@ steps:
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
+    backendAzureRmKey: 'global/terraform.tfstate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+- task: TerraformTaskV1@0
+  displayName: "Terraform Plan"
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
+    backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
+    backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
+    backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
+    backendAzureRmKey: 'global/terraform.tfstate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+- task: TerraformTaskV1@0
+  name: TerraformRegistry
+  displayName: "Terraform Apply Container Registry"
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
+- bash: |
+    ACR_RESOURCE_ID=$(cat $(TerraformRegistry.jsonOutputVariablesPath) | jq '.acr_resource_id.value' -r)
+    echo "##vso[task.setvariable variable=Staging.Acr.ResourceId]$ACR_RESOURCE_ID"
+- task: TerraformTaskV1@0
+  displayName: "Terraform Init"
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'nebbia-partner-service-connection'
+    backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
+    backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
+    backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging'
 - task: TerraformTaskV1@0
@@ -64,7 +97,7 @@ steps:
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     commandOptions: |
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(Staging.Acr.ResourceId)"
 - task: TerraformTaskV1@0
   name: TerraformCluster
   displayName: "Terraform Apply Staging"
@@ -74,7 +107,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)"
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(Staging.Acr.ResourceId)"
 - task: AzureCLI@2
   displayName: Install Fluxctl
   inputs:
@@ -108,7 +141,7 @@ steps:
       STAGING_SSH_PUBLIC_KEY=$(fluxctl identity --k8s-fwd-ns flux)
       echo "##vso[task.setvariable variable=Staging.Flux.SshPublicKey;issecret=true]$STAGING_SSH_PUBLIC_KEY"
 - task: TerraformTaskV1@0
-  displayName: "Terraform Init - Global"
+  displayName: "Terraform Init - Manifests"
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -116,10 +149,10 @@ steps:
     backendAzureRmResourceGroupName: $(TerraformBackend.ResourceGroup)
     backendAzureRmStorageAccountName: $(TerraformBackend.StorageAccount)
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
-    backendAzureRmKey: 'global/terraform.tfstate'
+    backendAzureRmKey: 'manifests-repo/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
 - task: TerraformTaskV1@0
-  displayName: "Terraform Plan - Global Module"
+  displayName: "Terraform Plan - Manifests"
   inputs:
     provider: 'azurerm'
     command: 'plan'
@@ -128,7 +161,7 @@ steps:
     commandOptions: |
       -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
 - task: TerraformTaskV1@0
-  displayName: "Terraform Apply - Global Module"
+  displayName: "Terraform Apply - Manifests"
   inputs:
     provider: 'azurerm'
     command: 'apply'

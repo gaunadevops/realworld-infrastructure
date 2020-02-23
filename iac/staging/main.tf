@@ -14,6 +14,10 @@ provider "azurerm" {
   version = "~>1.43"
 }
 
+provider "azuread" {
+  version = "=0.3.0"
+}
+
 module "cluster" {
   source = "../modules/aks-cluster"
 

@@ -34,5 +34,9 @@ variable dns_prefix {
   
 }
 
+variable "acr_resource_id" {
+  
+}
+
 
 
