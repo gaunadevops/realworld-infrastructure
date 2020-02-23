@@ -73,7 +73,8 @@ steps:
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
 - bash: |
     ACR_RESOURCE_ID=$(cat $(TerraformRegistry.jsonOutputVariablesPath) | jq '.acr_resource_id.value' -r)
-    echo "##vso[task.setvariable variable=Staging.Acr.ResourceId]$ACR_RESOURCE_ID"
+    echo "resource id $ACR_RESOURCE_ID"
+    echo "##vso[task.setvariable variable=ACR_RESOURCE_ID]$ACR_RESOURCE_ID"
   displayName: "Parsing Terraform Outputs"
 - task: TerraformTaskV1@0
   displayName: "Terraform Init"
@@ -98,7 +99,7 @@ steps:
     backendAzureRmKey: 'infrastructure/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     commandOptions: |
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(Staging.Acr.ResourceId)"
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(ACR_RESOURCE_ID)"
 - task: TerraformTaskV1@0
   name: TerraformCluster
   displayName: "Terraform Apply Staging"
@@ -108,7 +109,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/staging/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(Staging.Acr.ResourceId)"
+      -var "aks_service_principal_client_id=$(KubernetesServicePrincipal.ClientId)" -var "aks_service_principal_client_secret=$(KubernetesServicePrincipal.ClientSecret)" -var "acr_resource_id=$(ACR_RESOURCE_ID)"
 - task: AzureCLI@2
   displayName: Install Fluxctl
   inputs:
