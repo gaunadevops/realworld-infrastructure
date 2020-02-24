@@ -126,16 +126,19 @@ steps:
       echo "acquiring credentials for cluster"
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
 
-      echo "installing flux"
+      echo "installing flux. creating namespace"
       kubectl create ns flux
 
-      export GHUSER="fgauna12"
-      fluxctl install \
-      --git-user=${GHUSER} \
-      --git-email=${GHUSER}@users.noreply.github.com \
-      --git-url=git@github.com:${GHUSER}/flux-get-started \
-      --git-path=namespaces,workloads \
-      --namespace=flux | kubectl apply -f -
+      echo "installing flux. installing the main operator"
+      
+      helm upgrade -i flux fluxcd/flux \
+        --set git.url=$(ManifestsRepoUrl) \
+        --namespace flux
+
+      echo "installing flux. installing the helm operator"
+      helm upgrade -i helm-operator fluxcd/helm-operator \
+        --set git.ssh.secretName=flux-git-deploy \
+        --namespace flux
       
       sleep 5
       
