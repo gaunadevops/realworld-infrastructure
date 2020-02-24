@@ -131,9 +131,6 @@ steps:
       echo "installing flux. adding fluxcd helm repo"
       helm repo add fluxcd https://charts.fluxcd.io
 
-      # echo "installing flux. creating namespace"
-      # kubectl create ns flux
-
       echo "installing flux. installing the main operator"
       
       helm upgrade -i flux fluxcd/flux \
