@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "acrpull_role" {
   principal_id                     = data.azuread_service_principal.aks_service_principal.id
 }
 
-resource "azurerm_role_assignment" "acrpull_role" {
+resource "azurerm_role_assignment" "acrpull_role_2" {
   scope                            = var.acr_resource_id
   role_definition_name             = "AcrPull"
   principal_id                     = data.azuread_service_principal.permissions_test.id
