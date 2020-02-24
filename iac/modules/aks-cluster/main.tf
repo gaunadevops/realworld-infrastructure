@@ -29,20 +29,9 @@ data "azuread_service_principal" "aks_service_principal" {
   application_id = var.aks_service_principal_client_id
 }
 
-data "azuread_service_principal" "permissions_test" {
-  application_id = "f32b1957-a9f9-4322-a334-41fdb6a88007"
-}
-
 resource "azurerm_role_assignment" "acrpull_role" {
   scope                            = var.acr_resource_id
   role_definition_name             = "AcrPull"
   principal_id                     = data.azuread_service_principal.aks_service_principal.id
 }
-
-resource "azurerm_role_assignment" "acrpull_role_2" {
-  scope                            = var.acr_resource_id
-  role_definition_name             = "AcrPull"
-  principal_id                     = data.azuread_service_principal.permissions_test.id
-}
-
 
