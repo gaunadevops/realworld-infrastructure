@@ -167,7 +167,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
       -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
