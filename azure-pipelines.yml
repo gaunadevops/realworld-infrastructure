@@ -141,7 +141,10 @@ steps:
       helm upgrade -i helm-operator fluxcd/helm-operator \
         --set git.ssh.secretName=flux-git-deploy \
         --namespace flux \
-        --set helm.versions=v3
+        --set helm.versions=v3 \
+        --set configureRepositories.enable=true \
+        --set configureRepositories.repositories[0].url=$(ACR.Url),configureRepositories.repositories[0].username=$(ACR.UserName),configureRepositories.repositories[0].password=$(ACR.Password)
+
       
       sleep 5
       
