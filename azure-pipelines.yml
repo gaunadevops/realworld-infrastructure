@@ -143,7 +143,7 @@ steps:
         --namespace flux \
         --set helm.versions=v3 \
         --set configureRepositories.enable=true \
-        --set configureRepositories.repositories[0].name=$(ACR.Name),configureRepositories.repositories[0].url=$(ACR.Url),configureRepositories.repositories[0].username=$(ACR.UserName),configureRepositories.repositories[0].password=$(ACR.Password)
+        --set configureRepositories.repositories[0].name=$(ACR.Name),configureRepositories.repositories[0].url=$(ACR.Url),configureRepositories.repositories[0].username=$(KubernetesServicePrincipal.ClientId),configureRepositories.repositories[0].password=$(KubernetesServicePrincipal.ClientSecret)
 
       
       sleep 5
