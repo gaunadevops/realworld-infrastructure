@@ -193,6 +193,9 @@ steps:
     inlineScript: |
       set -e #stop script on first error
 
+      echo "setting timezone to EST"
+      sudo timedatectl set-timezone "America/New_York"
+
       echo "installing linkerd"
       # Specify the Linkerd version that will be leveraged throughout these instructions
       LINKERD_VERSION=$(LinkerdVersion)
