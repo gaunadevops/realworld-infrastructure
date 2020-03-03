@@ -18,6 +18,8 @@ variables:
    value: staging
  - group: 'staging'
  - group: 'global'
+ - name: LinkerdVersion
+   value: stable-2.7.0
 steps:
 - task: AzureCLI@2
   inputs:
@@ -182,5 +184,26 @@ steps:
     commandOptions: |
       -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
   continueOnError: true
+- task: AzureCLI@2
+  displayName: Install Linkerd
+  inputs:
+    azureSubscription: 'nebbia-partner-service-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      set -e #stop script on first error
+
+      echo "installing linkerd"
+      # Specify the Linkerd version that will be leveraged throughout these instructions
+      LINKERD_VERSION=$(LinkerdVersion)
+
+      curl -sLO "https://github.com/linkerd/linkerd2/releases/download/$LINKERD_VERSION/linkerd2-cli-$LINKERD_VERSION-linux"
+
+      sudo cp ./linkerd2-cli-$LINKERD_VERSION-linux /usr/local/bin/linkerd
+      sudo chmod +x /usr/local/bin/linkerd
+
+      echo "Running pre-checks with Linkerd"
+      linkerd check --pre
+  continueOnError: false
     
       
