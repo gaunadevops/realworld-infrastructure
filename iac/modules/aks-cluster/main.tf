@@ -15,6 +15,8 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     vm_size    = var.node_size
   }
 
+  kubernetes_version = var.kubernetes_version
+
   service_principal {
     client_id     = var.aks_service_principal_client_id
     client_secret = var.aks_service_principal_client_secret
