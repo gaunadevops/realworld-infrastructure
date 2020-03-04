@@ -67,7 +67,7 @@ steps:
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global'
-    commandOptions: 
+    commandOptions: ''
 - task: TerraformTaskV1@0
   name: TerraformRegistry
   displayName: "Terraform Apply Container Registry"
@@ -134,7 +134,10 @@ steps:
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
 
       echo "creating flux namespace"
-      kubectl create ns flux
+      echo "apiVersion: v1
+kind: Namespace
+metadata:
+  name:  flux" | kubectl apply -f
 
       echo "installing flux. adding fluxcd helm repo"
       helm repo add fluxcd https://charts.fluxcd.io
