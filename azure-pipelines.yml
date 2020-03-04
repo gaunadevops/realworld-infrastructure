@@ -67,6 +67,7 @@ steps:
     backendAzureRmContainerName: '$(TerraformBackend.ContainerName)'
     backendAzureRmKey: 'global/terraform.tfstate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global'
+    commandOptions: 
 - task: TerraformTaskV1@0
   name: TerraformRegistry
   displayName: "Terraform Apply Container Registry"
