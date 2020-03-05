@@ -134,10 +134,12 @@ steps:
       az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME
 
       echo "ensuring flux namespace exists"
-      echo 'apiVersion: v1
+      cat << EOF
+apiVersion: v1
 kind: Namespace
 metadata:
-  name:  flux' | kubectl apply -f
+  name:  flux
+EOF | kubectl apply -f
 
       echo "installing flux. adding fluxcd helm repo"
       helm repo add fluxcd https://charts.fluxcd.io
