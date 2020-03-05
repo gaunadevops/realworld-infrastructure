@@ -209,7 +209,13 @@ steps:
 
       echo "Running pre-checks with Linkerd"
       linkerd check --pre
+
+      echo "Installing Linkerd"
+      linkerd install | kubectl apply -f -
+
+      echo "Checking installation"
+      linkerd check
   continueOnError: false
-  enabled: false
+  enabled: true
     
       
