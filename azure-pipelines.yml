@@ -196,7 +196,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      set -e #stop script on first error
+      set -e
 
       echo "installing linkerd"
       # Specify the Linkerd version that will be leveraged throughout these instructions
@@ -207,12 +207,18 @@ steps:
       sudo cp ./linkerd2-cli-$LINKERD_VERSION-linux /usr/local/bin/linkerd
       sudo chmod +x /usr/local/bin/linkerd
 
-      echo "Running pre-checks with Linkerd"
-      linkerd check --pre
+      FLUX_NAMESPACE=$(kubectl get ns -o json | jq '.items[].metadata.name | select(.=="flux")')
+      if [ -z "$FLUX_NAMESPACE" ]
+      then
+        echo "Linkerd not installed. Installing Linkerd"
+        echo "Running pre-checks with Linkerd"
+        linkerd check --pre
 
-      echo "Installing Linkerd"
-      linkerd install | kubectl apply -f -
-
+        echo "Installing Linkerd"
+        linkerd install | kubectl apply -f -
+      else 
+        echo "Linkerd already installed"
+      fi
       echo "Checking installation"
       linkerd check
   continueOnError: false
