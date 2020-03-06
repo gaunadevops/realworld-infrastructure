@@ -138,6 +138,7 @@ steps:
       
       helm upgrade -i flux fluxcd/flux \
         --set git.url=$(ManifestsRepoUrl) \
+        --set git.path=$(ManifestsRepoK8sDirectory) \
         --namespace flux \
         --wait
 
