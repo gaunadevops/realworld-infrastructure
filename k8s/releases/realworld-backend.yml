@@ -1,0 +1,16 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: realworld-backend
+  namespace: realworld
+spec:
+  releaseName: realworld-backend
+  chart:
+    repository: https://realworld.azurecr.io/helm/v1/repo/
+    name: realworld-backend
+    version: 0.1.0
+  values:
+    image:
+      repository: realworld.azurecr.io/backend/realworld-backend
+      tag: "20200301.5"
