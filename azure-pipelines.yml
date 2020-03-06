@@ -15,8 +15,6 @@ variables:
  - group: 'global'
  - name: LinkerdVersion
    value: stable-2.7.0
- - name: system.debug
-   value: true
 steps:
 - task: AzureCLI@2
   inputs:
