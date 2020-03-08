@@ -172,7 +172,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)" -var "github_repository=$(ManifestsRepo)" -var "github_deploy_key_name=$(ManifestsDeployKeyName)"
+      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)" -var "github_repository=$(ManifestsRepo)" -var "github_deploy_key_name=$(ManifestsDeployKeyName)" -var "github_organization=$(ManifestsOrganization)"
 - task: TerraformTaskV1@0
   displayName: "Terraform Apply - Manifests"
   inputs:
@@ -181,7 +181,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/iac/global/manifests-repo/'
     environmentServiceNameAzureRM: 'nebbia-partner-service-connection'
     commandOptions: |
-      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)"
+      -var "staging_ssh_public_key=$(Staging.Flux.SshPublicKey)" -var "github_token=$(GitHub.fgauna12.PersonalAccessToken)" -var "github_repository=$(ManifestsRepo)" -var "github_deploy_key_name=$(ManifestsDeployKeyName)" -var "github_organization=$(ManifestsOrganization)"
   continueOnError: true
 - bash: |
     set -e
