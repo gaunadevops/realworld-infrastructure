@@ -195,8 +195,8 @@ steps:
     sudo cp ./linkerd2-cli-$LINKERD_VERSION-linux /usr/local/bin/linkerd
     sudo chmod +x /usr/local/bin/linkerd
 
-    FLUX_NAMESPACE=$(kubectl get ns -o json | jq '.items[].metadata.name | select(.=="flux")')
-    if [ -z "$FLUX_NAMESPACE" ]
+    LINKERD_NAMESPACE=$(kubectl get ns -o json | jq '.items[].metadata.name | select(.=="linkerd")')
+    if [ -z "$LINKERD_NAMESPACE" ]
     then
       echo "Linkerd not installed. Installing Linkerd"
       echo "Running pre-checks with Linkerd"
