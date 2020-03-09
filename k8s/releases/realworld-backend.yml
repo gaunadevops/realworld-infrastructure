@@ -13,4 +13,4 @@ spec:
   values:
     image:
       repository: realworld.azurecr.io/backend/realworld-backend
-      tag: "20200301.5"
+      tag: "20200309.1"
