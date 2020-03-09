@@ -9,7 +9,7 @@ spec:
   chart:
     repository: https://realworld.azurecr.io/helm/v1/repo/
     name: realworld-backend
-    version: 0.1.0
+    version: 0.1.1
   values:
     image:
       repository: realworld.azurecr.io/backend/realworld-backend
