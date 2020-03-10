@@ -142,7 +142,7 @@ steps:
       helm upgrade -i flux fluxcd/flux \
         --set git.url=$(ManifestsRepoUrl) \
         --set git.path=$(ManifestsRepoK8sDirectory) \
-        --set registry.acr.enabled=true
+        --set registry.acr.enabled=true \
         --namespace flux \
         --wait
 
