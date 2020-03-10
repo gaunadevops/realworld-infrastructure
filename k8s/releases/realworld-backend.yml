@@ -16,4 +16,4 @@ spec:
   values:
     image:
       repository: realworld.azurecr.io/backend/realworld-backend
-      tag: "stg-901c1419068a451286cae279b79ca3fa61ea0f50"
+      tag: "stg-419586ec978e05fe580b45a301482ea7f32e879e"
