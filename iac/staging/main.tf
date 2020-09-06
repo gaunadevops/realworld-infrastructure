@@ -7,11 +7,11 @@ locals {
   resource_group_name = "rg-realworld-${local.environment_name}-001"
   cluster_name        = "azaks-realworld-${local.environment_name}-001"
   location            = "eastus"
-  node_count          = 1
+  node_count          = 3
 }
 
 provider "azurerm" {
-  version = "~>1.43"
+  version = "~>2.26"
 }
 
 provider "azuread" {
