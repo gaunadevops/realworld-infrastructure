@@ -88,8 +88,11 @@ jobs:
     - name: Azure CLI Action
       uses: Azure/cli@v1.0.0
       with:
+        
         # Specify the script here
         inlineScript: |
+          echo "rg 1 $TERRAFORM_BACKEND_RESOURCE_GROUP"
+          echo "rg 2 ${{ env.TERRAFORM_BACKEND_RESOURCE_GROUP }}"
           az group create --location eastus --name $TERRAFORM_BACKEND_RESOURCE_GROUP
       
           az storage account create --name $TERRAFORM_BACKEND_STORAGE_ACCOUNT --resource-group $TERRAFORM_BACKEND_RESOURCE_GROUP --location eastus --sku Standard_LRS
