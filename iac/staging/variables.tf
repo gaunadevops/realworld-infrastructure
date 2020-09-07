@@ -7,5 +7,5 @@ variable "aks_service_principal_client_secret" {
 }
 
 variable "acr_resource_id" {
-  
+
 }
