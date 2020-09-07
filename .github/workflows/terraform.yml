@@ -66,7 +66,7 @@ jobs:
     env:
       TERRAFORM_BACKEND_RESOURCE_GROUP: rg-terraform-staging
       TERRAFORM_BACKEND_STORAGE_ACCOUNT: stterraformstg001
-      TERRAFORM_BACKEND_CONTAINER_NAME: staging  
+      TERRAFORM_BACKEND_CONTAINER_NAME: realworld  
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -87,8 +87,7 @@ jobs:
 
     - name: Azure CLI Action
       uses: Azure/cli@v1.0.0
-      with:
-        
+      with:        
         # Specify the script here
         inlineScript: |
           az group create --location eastus --name ${{ env.TERRAFORM_BACKEND_RESOURCE_GROUP }}
