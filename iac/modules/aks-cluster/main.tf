@@ -36,6 +36,6 @@ resource "azurerm_role_assignment" "acrpull_role" {
   count                = var.enable_acr ? 1 : 0
   scope                = var.acr_resource_id
   role_definition_name = "AcrPull"
-  principal_id         = data.azuread_service_principal.aks_service_principal.id
+  principal_id         = data.azuread_service_principal.aks_service_principal[count.index].id
 }
 
