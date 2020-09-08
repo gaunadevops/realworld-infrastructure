@@ -16,6 +16,7 @@ locals {
 
 provider "azurerm" {
   version = "~>2.26"
+  features {}
 }
 
 provider "azuread" {
