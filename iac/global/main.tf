@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "azurerm" {
-  version = "~>1.43"
+  version = "~>2.26"
 }
 
 locals {

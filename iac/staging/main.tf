@@ -33,5 +33,5 @@ module "cluster" {
   aks_service_principal_client_secret = var.aks_service_principal_client_secret
   cluster_name                        = local.cluster_name
   dns_prefix                          = local.cluster_name
-  acr_resource_id                     = var.acr_resource_id
+  enable_acr                          = false
 }

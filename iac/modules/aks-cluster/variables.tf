@@ -34,6 +34,10 @@ variable dns_prefix {
   
 }
 
+variable "enable_acr" {
+  type = bool
+}
+
 variable "acr_resource_id" {
   
 }
