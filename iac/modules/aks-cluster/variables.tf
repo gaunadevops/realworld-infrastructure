@@ -39,7 +39,7 @@ variable "enable_acr" {
 }
 
 variable "acr_resource_id" {
-  
+  default = ""
 }
 
 variable "kubernetes_version" {
