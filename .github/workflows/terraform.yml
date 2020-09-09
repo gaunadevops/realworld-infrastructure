@@ -5,7 +5,7 @@ on:
     branches:
     - master
     paths: 
-    - 'iac/*'
+    - 'iac/**'
   pull_request:
 
 jobs:
