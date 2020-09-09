@@ -4,8 +4,6 @@ on:
   push:
     branches:
     - master
-    paths: 
-    - 'iac/*'
   pull_request:
 
 jobs:
