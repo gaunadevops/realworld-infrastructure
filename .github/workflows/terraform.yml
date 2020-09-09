@@ -7,6 +7,8 @@ on:
     paths: 
     - 'iac/**'
   pull_request:
+    branches:
+    - master
 
 jobs:
   terraform:
