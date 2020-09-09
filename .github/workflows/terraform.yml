@@ -20,7 +20,13 @@ jobs:
     env:
       TERRAFORM_BACKEND_RESOURCE_GROUP: rg-terraform-staging
       TERRAFORM_BACKEND_STORAGE_ACCOUNT: stterraformstg001
-      TERRAFORM_BACKEND_CONTAINER_NAME: realworld  
+      TERRAFORM_BACKEND_CONTAINER_NAME: realworld
+      TF_VAR_aks_service_principal_client_id: ${{ secrets.AKS_CLIENT_ID }}
+      TF_VAR_aks_service_principal_client_secret: ${{ secrets.AKS_CLIENT_SECRET }}
+      ARM_CLIENT_ID: ${{ secrets.PIPELINE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.PIPELINE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.PIPELINE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.PIPELINE_TENANT_ID }}  
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -68,14 +74,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan
-      env: 
-        TF_VAR_aks_service_principal_client_id: ${{ secrets.AKS_CLIENT_ID }}
-        TF_VAR_aks_service_principal_client_secret: ${{ secrets.AKS_CLIENT_SECRET }}
-        ARM_CLIENT_ID: ${{ secrets.PIPELINE_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.PIPELINE_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.PIPELINE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.PIPELINE_TENANT_ID }}
+      run: terraform plan        
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
