@@ -45,7 +45,7 @@ jobs:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Azure CLI Action
+    - name: Azure CLI Actionhttps://www.measureup.com/az-400-microsoft-azure-devops-solutions.html
       uses: Azure/cli@v1.0.0
       with:
         # Specify the script here
@@ -81,3 +81,6 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
+
+    - name: Helm 
+      run: helm
