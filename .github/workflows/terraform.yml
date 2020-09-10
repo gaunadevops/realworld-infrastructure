@@ -69,7 +69,7 @@ jobs:
     - name: Terraform Init
       run: terraform init
       env:
-        ARM_ACCESS_KEY: ${{ secrets[steps.terraform-setup.outputs.ARM_ACCESS_KEY] }} 
+        ARM_ACCESS_KEY: ${{ steps.terraform-setup.outputs.ARM_ACCESS_KEY }} 
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -79,7 +79,7 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
       env:
-        ARM_ACCESS_KEY: ${{ secrets[steps.terraform-setup.outputs.ARM_ACCESS_KEY] }} 
+        ARM_ACCESS_KEY: ${{ steps.terraform-setup.outputs.ARM_ACCESS_KEY }}
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
