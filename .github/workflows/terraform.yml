@@ -84,3 +84,12 @@ jobs:
 
     - name: Helm 
       run: helm
+
+    - name: Azure CLI add azure arc
+      run: |
+        az extension add --name connectedk8s
+        az extension add --name k8sconfiguration
+
+    
+    
+
