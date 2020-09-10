@@ -73,7 +73,7 @@ jobs:
       run: |
         AKS_CLUSTER_NAME=$(terraform output -no-color cluster_name)
         AKS_RESOURCE_GROUP=$(terraform output -no-color resource_group_name)
-        aks aks get-credentials -g $AKS_RESOURCE_GROUP -n $AKS_CLUSTER_NAME
+        az aks get-credentials -g $AKS_RESOURCE_GROUP -n $AKS_CLUSTER_NAME
         az connectedk8s connect --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP
 
     
