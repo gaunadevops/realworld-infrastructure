@@ -27,6 +27,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.PIPELINE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.PIPELINE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.PIPELINE_TENANT_ID }}  
+      ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }} 
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -44,29 +45,10 @@ jobs:
       with:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Azure CLI Action
-      uses: Azure/cli@v1.0.0
-      with:
-        # Specify the script here
-        inlineScript: |
-          az group create --location eastus --name ${{ env.TERRAFORM_BACKEND_RESOURCE_GROUP }}
-      
-          az storage account create --name ${{ env.TERRAFORM_BACKEND_STORAGE_ACCOUNT }} --resource-group ${{ env.TERRAFORM_BACKEND_RESOURCE_GROUP }} --location eastus --sku Standard_LRS
-
-          az storage container create --name ${{ env.TERRAFORM_BACKEND_CONTAINER_NAME }} --account-name ${{ env.TERRAFORM_BACKEND_STORAGE_ACCOUNT }}
-
-          STORAGE_ACCOUNT_KEY=$(az storage account keys list -g ${{ env.TERRAFORM_BACKEND_RESOURCE_GROUP }} -n ${{ env.TERRAFORM_BACKEND_STORAGE_ACCOUNT }} | jq ".[0].value" -r)
-
-          echo "setting storage account key variable"
-          echo "::set-env name=ARM_ACCESS_KEY::$STORAGE_ACCOUNT_KEY"
-          
-        # Azure CLI version to be used to execute the script. If not provided, latest version is used
-        azcliversion: latest
     
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init
+      run: terraform init        
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -74,10 +56,42 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan        
+      run: terraform plan
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
+
+    - name: Install Azure Arc Extensions
+      run: |
+        az extension add --name connectedk8s
+        az extension add --name k8sconfiguration
+
+    - name: Connect Cluster to Azure Arc and Configure GitOps
+      run: |
+        AKS_CLUSTER_NAME=$(terraform output -no-color cluster_name)
+        AKS_RESOURCE_GROUP=$(terraform output -no-color resource_group_name)
+        az aks get-credentials -g $AKS_RESOURCE_GROUP -n $AKS_CLUSTER_NAME
+        az connectedk8s connect --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP
+
+        az k8sconfiguration create \
+          --name realworld \
+          --resource-group $AKS_RESOURCE_GROUP --cluster-name $AKS_CLUSTER_NAME \
+          --operator-instance-name flux --operator-namespace flux \
+          --operator-params='--git-readonly --git-path=k8s' \
+          --enable-helm-operator --helm-operator-version='0.6.0' \
+          --helm-operator-params='--set helm.versions=v3' \
+          --repository-url https://github.com/${{ env.GITHUB_REPOSITORY }}.git  \
+          --scope namespace --cluster-type connectedClusters
+
+
+
+    
+    
+
+
+
+    
+
