@@ -77,7 +77,7 @@ jobs:
         az connectedk8s connect --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP
 
         az k8sconfiguration create \
-          ---name azure-arc-sample \
+          --name realworld \
           --resource-group $AKS_RESOURCE_GROUP --cluster-name $AKS_CLUSTER_NAME \
           --operator-instance-name flux --operator-namespace flux \
           --operator-params='--git-readonly --git-path=k8s/releases' \
