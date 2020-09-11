@@ -5,6 +5,7 @@ metadata:
   name: realworld-backend
   namespace: realworld
   annotations:
+    fluxcd.io/ignore: "true"
     fluxcd.io/automated: "true"
     fluxcd.io/tag.chart-image: glob:stg-*
 spec:
