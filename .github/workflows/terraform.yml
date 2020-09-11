@@ -83,7 +83,7 @@ jobs:
           --operator-params='--git-readonly --git-path=k8s' \
           --enable-helm-operator --helm-operator-version='0.6.0' \
           --helm-operator-params='--set helm.versions=v3' \
-          --repository-url https://github.com/${{ env.GITHUB_REPOSITORY }}.git  \
+          --repository-url https://github.com/gaunadevops/realworld-infrastructure.git  \
           --scope namespace --cluster-type connectedClusters
 
 
