@@ -2,7 +2,9 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: azure-arc-sample
-  namespace: arc-k8s-demo
+  namespace: realworld
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   releaseName: arc-k8s-demo
   chart:
