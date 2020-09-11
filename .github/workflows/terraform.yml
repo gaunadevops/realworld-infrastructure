@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - master
+    paths: 
+    - "iac/*"
   pull_request:
 
 jobs:
@@ -65,11 +67,13 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: Install Azure Arc Extensions
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         az extension add --name connectedk8s
         az extension add --name k8sconfiguration
 
     - name: Connect Cluster to Azure Arc and Configure GitOps
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         AKS_CLUSTER_NAME=$(terraform output -no-color cluster_name)
         AKS_RESOURCE_GROUP=$(terraform output -no-color resource_group_name)
