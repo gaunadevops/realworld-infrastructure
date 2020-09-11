@@ -81,7 +81,7 @@ jobs:
           --resource-group $AKS_RESOURCE_GROUP --cluster-name $AKS_CLUSTER_NAME \
           --operator-instance-name flux --operator-namespace flux \
           --operator-params='--git-readonly --git-path=k8s/releases' \
-          --enable-helm-operator --helm-operator-version='1.2.0' \
+          --enable-helm-operator \
           --helm-operator-params='--set helm.versions=v3' \
           --repository-url https://github.com/${{ env.GITHUB_REPOSITORY }}.git  \
           --scope namespace --cluster-type connectedClusters
