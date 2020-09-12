@@ -1,0 +1,12 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: kured
+  namespace: kube-system
+spec:
+  releaseName: kured
+  chart:
+    repository: https://weaveworks.github.io/kured
+    name: kured
+    version: 2.2.0
