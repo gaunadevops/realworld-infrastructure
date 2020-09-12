@@ -66,17 +66,17 @@ jobs:
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       run: terraform apply -auto-approve
 
     - name: Install Azure Arc Extensions
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       run: |
         az extension add --name connectedk8s
         az extension add --name k8sconfiguration
 
     - name: Connect Cluster to Azure Arc and Configure GitOps
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       run: |
         AKS_CLUSTER_NAME=$(terraform output -no-color cluster_name)
         AKS_RESOURCE_GROUP=$(terraform output -no-color resource_group_name)
