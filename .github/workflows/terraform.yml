@@ -33,6 +33,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.PIPELINE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.PIPELINE_TENANT_ID }}  
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }} 
+      FLUX_VERSION: "v1.2.0"
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -75,13 +76,16 @@ jobs:
         az extension add --name connectedk8s
         az extension add --name k8sconfiguration
 
-    - name: Connect Cluster to Azure Arc and Configure GitOps
+    - name: Connect Cluster to Azure Arc and Configure GitOps Manually
       if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       run: |
         AKS_CLUSTER_NAME=$(terraform output -no-color cluster_name)
         AKS_RESOURCE_GROUP=$(terraform output -no-color resource_group_name)
         az aks get-credentials -g $AKS_RESOURCE_GROUP -n $AKS_CLUSTER_NAME
         az connectedk8s connect --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP
+             
+        echo "Installing flux CRDs. Version $FLUX_VERSION"
+        kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/$FLUX_VERSION/deploy/crds.yaml
 
 #        az k8sconfiguration create \
 #          --name realworld \
