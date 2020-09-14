@@ -83,15 +83,15 @@ jobs:
         az aks get-credentials -g $AKS_RESOURCE_GROUP -n $AKS_CLUSTER_NAME
         az connectedk8s connect --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP
 
-        az k8sconfiguration create \
-          --name realworld \
-          --resource-group $AKS_RESOURCE_GROUP --cluster-name $AKS_CLUSTER_NAME \
-          --operator-instance-name flux --operator-namespace flux \
-          --operator-params='--git-readonly --git-path=k8s' \
-          --enable-helm-operator --helm-operator-version='0.6.0' \
-          --helm-operator-params='--set helm.versions=v3' \
-          --repository-url https://github.com/fgauna12/realworld-aks.git  \
-          --scope namespace --cluster-type connectedClusters
+#        az k8sconfiguration create \
+#          --name realworld \
+#          --resource-group $AKS_RESOURCE_GROUP --cluster-name $AKS_CLUSTER_NAME \
+#          --operator-instance-name flux --operator-namespace flux \
+#          --operator-params='--git-readonly --git-path=k8s' \
+#          --enable-helm-operator --helm-operator-version='0.6.0' \
+#          --helm-operator-params='--set helm.versions=v3' \
+#          --repository-url https://github.com/fgauna12/realworld-aks.git  \
+#          --scope namespace --cluster-type connectedClusters
 
 
 
